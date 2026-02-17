@@ -1,5 +1,17 @@
 # Progress
 
+## 2026-02-17 -- Added SLO create, update, and corrections tools
+
+- Added 3 new SLO tools: create (POST), update (PUT), corrections (GET)
+- `create_slo` supports metric, monitor, and time_slice types with optional description, tags, monitor_ids, query
+- `update_slo` performs full replacement via PUT /api/v1/slo/{id}
+- `get_slo_corrections` lists status corrections with markdown rendering
+- Shared `_slo_body` helper for create/update request construction
+- Added `_corrections_md` markdown renderer for correction timestamps and categories
+- Expanded SLO tests from 5 to 20 (slos.py at 100% coverage)
+- Registered 3 new tools in server.py (total: 58 tools)
+- Test suite: 187 tests, 94% coverage
+
 ## 2026-02-17 -- Added RUM (Real User Monitoring) tools
 
 - Added `tools/rum.py` with 20 new tools across 6 RUM subdomains:

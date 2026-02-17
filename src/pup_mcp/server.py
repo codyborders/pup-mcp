@@ -46,7 +46,10 @@ mcp.tool(name="pup_incidents_get", annotations={"title": "Get Incident", "readOn
 # ---- SLOs ----
 mcp.tool(name="pup_slos_list", annotations={"title": "List SLOs", "readOnlyHint": True, "destructiveHint": False, "idempotentHint": True, "openWorldHint": True})(slos.list_slos)
 mcp.tool(name="pup_slos_get", annotations={"title": "Get SLO", "readOnlyHint": True, "destructiveHint": False, "idempotentHint": True, "openWorldHint": True})(slos.get_slo)
+mcp.tool(name="pup_slos_create", annotations={"title": "Create SLO", "readOnlyHint": False, "destructiveHint": False, "idempotentHint": False, "openWorldHint": True})(slos.create_slo)
+mcp.tool(name="pup_slos_update", annotations={"title": "Update SLO", "readOnlyHint": False, "destructiveHint": False, "idempotentHint": True, "openWorldHint": True})(slos.update_slo)
 mcp.tool(name="pup_slos_delete", annotations={"title": "Delete SLO", "readOnlyHint": False, "destructiveHint": True, "idempotentHint": False, "openWorldHint": True})(slos.delete_slo)
+mcp.tool(name="pup_slos_corrections", annotations={"title": "Get SLO Corrections", "readOnlyHint": True, "destructiveHint": False, "idempotentHint": True, "openWorldHint": True})(slos.get_slo_corrections)
 
 # ---- Synthetics ----
 mcp.tool(name="pup_synthetics_tests_list", annotations={"title": "List Synthetic Tests", "readOnlyHint": True, "destructiveHint": False, "idempotentHint": True, "openWorldHint": True})(synthetics.list_tests)
