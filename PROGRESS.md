@@ -1,5 +1,18 @@
 # Progress
 
+## 2026-02-17 -- Added RUM (Real User Monitoring) tools
+
+- Added `tools/rum.py` with 20 new tools across 6 RUM subdomains:
+  - Applications: list, get, create, update, delete (v2 /rum/applications)
+  - Metrics: list, get, create, update, delete (v2 /rum/metrics)
+  - Retention Filters: list, get, create, update, delete (v2 /rum/applications/{id}/retention_filters)
+  - Sessions: list, search (v2 /rum/events/search)
+  - Playlists: list, get (v2 /rum/playlists)
+  - Heatmaps: query (v2 /rum/analytics/heatmap)
+- Registered all 20 RUM tools in server.py (total: 55 tools)
+- Added 42 RUM tests in `tests/unit/test_rum.py`
+- Test suite: 172 tests, 93% coverage
+
 ## 2026-02-17 -- Restructured project and added comprehensive tests
 
 - Restructured project to follow PYTHON.md conventions: `src/pup_mcp/` layout with `models/`, `services/`, `utils/`, `tools/` subdirectories

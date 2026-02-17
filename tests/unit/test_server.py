@@ -22,9 +22,19 @@ class TestServerRegistration:
             "pup_downtimes_list", "pup_downtimes_get", "pup_downtimes_cancel",
             "pup_tags_list", "pup_tags_get", "pup_tags_add", "pup_tags_update", "pup_tags_delete",
             "pup_users_list", "pup_users_get", "pup_roles_list",
+            "pup_rum_apps_list", "pup_rum_apps_get", "pup_rum_apps_create",
+            "pup_rum_apps_update", "pup_rum_apps_delete",
+            "pup_rum_metrics_list", "pup_rum_metrics_get", "pup_rum_metrics_create",
+            "pup_rum_metrics_update", "pup_rum_metrics_delete",
+            "pup_rum_retention_filters_list", "pup_rum_retention_filters_get",
+            "pup_rum_retention_filters_create", "pup_rum_retention_filters_update",
+            "pup_rum_retention_filters_delete",
+            "pup_rum_sessions_list", "pup_rum_sessions_search",
+            "pup_rum_playlists_list", "pup_rum_playlists_get",
+            "pup_rum_heatmaps_query",
         }
         assert expected.issubset(tool_names), f"Missing tools: {expected - tool_names}"
 
     def test_tool_count(self) -> None:
         tools = mcp._tool_manager.list_tools()
-        assert len(tools) == 35
+        assert len(tools) == 55
