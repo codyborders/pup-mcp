@@ -1,5 +1,13 @@
 # Progress
 
+## 2026-02-17 -- Added README.md
+
+- Created comprehensive README.md documenting the project
+- Covers installation, configuration (.env), running the server, Claude Desktop setup
+- Documents all 58 tools across 12 domains with description tables
+- Explains response formats (JSON/Markdown), time input syntax, project structure
+- Includes experimental/AI-generated warning prominently at the top
+
 ## 2026-02-17 -- Added SLO create, update, and corrections tools
 
 - Added 3 new SLO tools: create (POST), update (PUT), corrections (GET)
