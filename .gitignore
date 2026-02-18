@@ -47,7 +47,12 @@ venv/
 __pycache__/
 *.pyc
 *.pyo
+.coverage
+
+# Claude
+.claude/
 
 # Misc
+.entire/
 *.tgz
 *.tar.gz
