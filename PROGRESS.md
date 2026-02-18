@@ -1,5 +1,23 @@
 # Progress
 
+## 2026-02-17 -- Codebase simplification and consistency pass
+
+- **server.py**: Replaced 90+ repetitive `mcp.tool()` calls with a data-driven
+  registry list and annotation presets (`_READ_ONLY`, `_WRITE`, `_WRITE_IDEMPOTENT`,
+  `_DESTRUCTIVE`, `_DESTRUCTIVE_IDEMPOTENT`). Registration now iterates `_TOOLS` list.
+- **time_parser.py**: Extracted `parse_time_range(from_time, to_time)` helper to
+  eliminate the repeated `parse_time` / `now_unix` two-step pattern used in 6+ tools.
+- **datadog_client.py**: Removed unnecessary try/except around `response.text` in
+  `api_request()` -- httpx `Response.text` never raises.
+- **synthetics.py, users.py**: Replaced raw `json.dumps()` calls in `list_locations()`
+  and `list_roles()` with `format_output()` for consistency with all other tools.
+- **metrics.py**: Removed unused `import time`.
+- **synthetics.py**: Removed unused `import json`.
+- **users.py**: Removed unused `import json`.
+- **slos.py**: Removed redundant `alias="slo_type"` from `SloCreateInput.slo_type`
+  (alias was identical to field name).
+- All 187 tests pass, no functionality changed.
+
 ## 2026-02-17 -- Added README.md
 
 - Created comprehensive README.md documenting the project

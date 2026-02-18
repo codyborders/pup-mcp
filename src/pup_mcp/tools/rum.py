@@ -11,7 +11,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from pup_mcp.models.common import ResponseFormat
 from pup_mcp.services.datadog_client import api_request, handle_error
 from pup_mcp.utils.formatting import format_output
-from pup_mcp.utils.time_parser import now_unix, parse_time
+from pup_mcp.utils.time_parser import parse_time_range
 
 
 # ---------------------------------------------------------------------------
@@ -479,8 +479,7 @@ def _sessions_body(
     query: Optional[str] = None,
 ) -> Dict[str, Any]:
     """Build the request body for RUM events search."""
-    from_ts = parse_time(from_time)
-    to_ts = parse_time(to_time) if to_time else now_unix()
+    from_ts, to_ts = parse_time_range(from_time, to_time)
     filt: Dict[str, Any] = {
         "from": str(from_ts * 1000),
         "to": str(to_ts * 1000),
@@ -545,8 +544,7 @@ async def rum_playlist_get(params: RumPlaylistGetInput) -> str:
 async def rum_heatmap_query(params: RumHeatmapQueryInput) -> str:
     """Query heatmap data for a specific view/page."""
     try:
-        from_ts = parse_time(params.from_time)
-        to_ts = parse_time(params.to_time) if params.to_time else now_unix()
+        from_ts, to_ts = parse_time_range(params.from_time, params.to_time)
         qp: Dict[str, Any] = {
             "view": params.view,
             "from": from_ts,

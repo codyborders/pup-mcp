@@ -74,14 +74,10 @@ async def api_request(
         )
 
     if response.status_code >= 400:
-        try:
-            body = response.text
-        except Exception:
-            body = ""
         raise DatadogApiError(
             f"Datadog API returned {response.status_code}",
             status_code=response.status_code,
-            body=body,
+            body=response.text,
         )
 
     if response.status_code == 204:

@@ -7,7 +7,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from pup_mcp.models.common import ResponseFormat
 from pup_mcp.services.datadog_client import api_request, handle_error
 from pup_mcp.utils.formatting import format_output
-from pup_mcp.utils.time_parser import now_unix, parse_time
+from pup_mcp.utils.time_parser import parse_time_range
 
 
 class EventsListInput(BaseModel):
@@ -36,8 +36,7 @@ class EventGetInput(BaseModel):
 async def list_events(params: EventsListInput) -> str:
     """List recent Datadog events within a time range."""
     try:
-        from_ts = parse_time(params.from_time)
-        to_ts = parse_time(params.to_time) if params.to_time else now_unix()
+        from_ts, to_ts = parse_time_range(params.from_time, params.to_time)
         qp: Dict[str, Any] = {"start": from_ts, "end": to_ts}
         if params.tags:
             qp["tags"] = params.tags
@@ -50,8 +49,7 @@ async def list_events(params: EventsListInput) -> str:
 async def search_events(params: EventsSearchInput) -> str:
     """Search Datadog events using query syntax."""
     try:
-        from_ts = parse_time(params.from_time)
-        to_ts = parse_time(params.to_time) if params.to_time else now_unix()
+        from_ts, to_ts = parse_time_range(params.from_time, params.to_time)
         body = {
             "filter": {"query": params.query, "from": str(from_ts), "to": str(to_ts)},
             "page": {"limit": params.limit},

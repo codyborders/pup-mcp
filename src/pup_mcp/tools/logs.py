@@ -7,7 +7,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from pup_mcp.models.common import ResponseFormat
 from pup_mcp.services.datadog_client import api_request, handle_error
 from pup_mcp.utils.formatting import format_output
-from pup_mcp.utils.time_parser import now_unix, parse_time
+from pup_mcp.utils.time_parser import parse_time_range
 
 
 class LogsSearchInput(BaseModel):
@@ -40,8 +40,7 @@ def _logs_md(data: Any) -> str:
 async def search_logs(params: LogsSearchInput) -> str:
     """Search Datadog logs using query syntax with time range and pagination."""
     try:
-        from_ts = parse_time(params.from_time)
-        to_ts = parse_time(params.to_time) if params.to_time else now_unix()
+        from_ts, to_ts = parse_time_range(params.from_time, params.to_time)
         body = {
             "filter": {
                 "query": params.query,

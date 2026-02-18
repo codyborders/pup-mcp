@@ -1,6 +1,5 @@
 """Datadog user and role management tools."""
 
-import json
 from typing import Any, Dict, List
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -52,6 +51,6 @@ async def list_roles() -> str:
     """List available roles in the Datadog organization."""
     try:
         data = await api_request("roles", "v2")
-        return json.dumps(data, indent=2, default=str)
+        return format_output(data, ResponseFormat.JSON)
     except Exception as exc:
         return handle_error(exc)

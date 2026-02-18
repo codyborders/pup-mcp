@@ -1,6 +1,5 @@
 """Datadog metrics tools: query, search, list, and submit."""
 
-import time
 from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -8,7 +7,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from pup_mcp.models.common import ResponseFormat
 from pup_mcp.services.datadog_client import api_request, handle_error
 from pup_mcp.utils.formatting import format_output
-from pup_mcp.utils.time_parser import now_unix, parse_time
+from pup_mcp.utils.time_parser import now_unix, parse_time_range
 
 
 class MetricsQueryInput(BaseModel):
@@ -43,8 +42,7 @@ class MetricSubmitInput(BaseModel):
 async def query_metrics(params: MetricsQueryInput) -> str:
     """Query Datadog time-series metrics with aggregation syntax."""
     try:
-        from_ts = parse_time(params.from_time)
-        to_ts = parse_time(params.to_time) if params.to_time else now_unix()
+        from_ts, to_ts = parse_time_range(params.from_time, params.to_time)
         data = await api_request("query", "v1", params={"query": params.query, "from": from_ts, "to": to_ts})
         return format_output(data, params.response_format)
     except Exception as exc:

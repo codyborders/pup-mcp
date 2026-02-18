@@ -51,6 +51,21 @@ def parse_time(value: str) -> int:
     )
 
 
+def parse_time_range(from_time: str, to_time: str | None) -> tuple[int, int]:
+    """Parse a from/to time pair into Unix epoch seconds.
+
+    Args:
+        from_time: Start time (relative, absolute, or ISO 8601).
+        to_time: End time, or ``None`` to default to now.
+
+    Returns:
+        A (from_ts, to_ts) tuple of Unix epoch seconds.
+    """
+    from_ts = parse_time(from_time)
+    to_ts = parse_time(to_time) if to_time else now_unix()
+    return from_ts, to_ts
+
+
 def now_unix() -> int:
     """Return the current time as Unix epoch seconds."""
     return int(time.time())

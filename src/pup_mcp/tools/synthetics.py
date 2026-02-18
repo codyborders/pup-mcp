@@ -1,6 +1,5 @@
 """Datadog synthetic monitoring tools."""
 
-import json
 from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -71,6 +70,6 @@ async def list_locations() -> str:
     """List available synthetic monitoring locations."""
     try:
         data = await api_request("synthetics/locations", "v1")
-        return json.dumps(data, indent=2, default=str)
+        return format_output(data, ResponseFormat.JSON)
     except Exception as exc:
         return handle_error(exc)

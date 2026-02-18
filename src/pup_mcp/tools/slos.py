@@ -24,8 +24,7 @@ class SloCreateInput(BaseModel):
     model_config = ConfigDict(extra="forbid")
     name: str = Field(..., min_length=1, description="SLO name")
     slo_type: str = Field(
-        ..., alias="slo_type",
-        description="SLO type: metric, monitor, or time_slice",
+        ..., description="SLO type: metric, monitor, or time_slice",
     )
     thresholds: List[Dict[str, Any]] = Field(
         ..., min_length=1,
