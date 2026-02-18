@@ -1,0 +1,35 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "8b5178853c65",
+  "session_id": "c461850b-9e8a-4bfd-9363-15d9a6757e23",
+  "strategy": "manual-commit",
+  "created_at": "2026-02-18T00:25:39.897599Z",
+  "branch": "main",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "tests/unit/test_synthetics.py",
+    "src/pup_mcp/tools/synthetics.py",
+    "src/pup_mcp/server.py",
+    "tests/unit/test_server.py",
+    "PROGRESS.md"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "ce5ae82b345d",
+  "token_usage": {
+    "input_tokens": 21066,
+    "cache_creation_tokens": 75111,
+    "cache_read_tokens": 2719660,
+    "output_tokens": 5876,
+    "api_call_count": 34
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-02-18T00:25:39.50971Z",
+    "agent_lines": 484,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 484,
+    "agent_percentage": 100
+  },
+  "transcript_path": ".claude/projects/-Users-user-projects-pup-mcp/c461850b-9e8a-4bfd-9363-15d9a6757e23.jsonl"
+}
