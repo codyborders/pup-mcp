@@ -20,6 +20,8 @@ class TestServerRegistration:
             "pup_slos_update", "pup_slos_delete", "pup_slos_corrections",
             "pup_synthetics_tests_list", "pup_synthetics_tests_get",
             "pup_synthetics_tests_search", "pup_synthetics_locations_list",
+            "pup_synthetics_api_test_create", "pup_synthetics_api_test_update",
+            "pup_synthetics_tests_delete",
             "pup_downtimes_list", "pup_downtimes_get", "pup_downtimes_cancel",
             "pup_tags_list", "pup_tags_get", "pup_tags_add", "pup_tags_update", "pup_tags_delete",
             "pup_users_list", "pup_users_get", "pup_roles_list",
@@ -38,4 +40,4 @@ class TestServerRegistration:
 
     def test_tool_count(self) -> None:
         tools = mcp._tool_manager.list_tools()
-        assert len(tools) == 58
+        assert len(tools) == 61

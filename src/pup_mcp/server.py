@@ -104,6 +104,9 @@ _TOOLS: list[tuple[str, str, Dict[str, Any], Callable[..., Any]]] = [
     ("pup_synthetics_tests_get",      "Get Synthetic Test",       _READ_ONLY, synthetics.get_test),
     ("pup_synthetics_tests_search",   "Search Synthetic Tests",   _READ_ONLY, synthetics.search_tests),
     ("pup_synthetics_locations_list", "List Synthetic Locations",  _READ_ONLY, synthetics.list_locations),
+    ("pup_synthetics_api_test_create", "Create Synthetic API Test", _WRITE, synthetics.create_api_test),
+    ("pup_synthetics_api_test_update", "Update Synthetic API Test", _WRITE_IDEMPOTENT, synthetics.update_api_test),
+    ("pup_synthetics_tests_delete",    "Delete Synthetic Tests",    _DESTRUCTIVE, synthetics.delete_test),
     # Downtimes
     ("pup_downtimes_list",      "List Downtimes",      _READ_ONLY,  downtimes.list_downtimes),
     ("pup_downtimes_get",       "Get Downtime",        _READ_ONLY,  downtimes.get_downtime),

@@ -23,6 +23,68 @@ class SyntheticsSearchInput(BaseModel):
     response_format: ResponseFormat = Field(default=ResponseFormat.JSON)
 
 
+class SyntheticsCreateApiTestInput(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    name: str = Field(..., min_length=1, description="Test name")
+    subtype: str = Field(
+        default="http",
+        description="API test subtype: http, ssl, dns, websocket, tcp, udp, icmp, or grpc",
+    )
+    config: Dict[str, Any] = Field(
+        ...,
+        description=(
+            "Test config with 'assertions' list and 'request' object. "
+            "Assertions have operator, target, and type. "
+            "Request has method, url, headers, body, etc."
+        ),
+    )
+    locations: List[str] = Field(
+        ..., min_length=1, description="Locations to run from, e.g. ['aws:us-east-1']",
+    )
+    options: Optional[Dict[str, Any]] = Field(
+        default=None,
+        description="Test options: tick_every, retry, follow_redirects, http_version, etc.",
+    )
+    message: Optional[str] = Field(default=None, description="Notification message")
+    tags: Optional[List[str]] = Field(default=None, description="Tags list")
+    status: Optional[str] = Field(default=None, description="Test status: 'live' or 'paused'")
+
+
+class SyntheticsUpdateApiTestInput(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    test_id: str = Field(..., min_length=1, description="Synthetic test public ID to update")
+    name: str = Field(..., min_length=1, description="Test name")
+    subtype: str = Field(
+        default="http",
+        description="API test subtype: http, ssl, dns, websocket, tcp, udp, icmp, or grpc",
+    )
+    config: Dict[str, Any] = Field(
+        ...,
+        description=(
+            "Test config with 'assertions' list and 'request' object. "
+            "Assertions have operator, target, and type. "
+            "Request has method, url, headers, body, etc."
+        ),
+    )
+    locations: List[str] = Field(
+        ..., min_length=1, description="Locations to run from, e.g. ['aws:us-east-1']",
+    )
+    options: Optional[Dict[str, Any]] = Field(
+        default=None,
+        description="Test options: tick_every, retry, follow_redirects, http_version, etc.",
+    )
+    message: Optional[str] = Field(default=None, description="Notification message")
+    tags: Optional[List[str]] = Field(default=None, description="Tags list")
+    status: Optional[str] = Field(default=None, description="Test status: 'live' or 'paused'")
+
+
+class SyntheticsDeleteTestInput(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    public_ids: List[str] = Field(
+        ..., min_length=1, description="List of synthetic test public IDs to delete",
+    )
+
+
 def _tests_md(data: Any) -> str:
     tests: List[Dict[str, Any]] = data.get("tests", []) if isinstance(data, dict) else []
     if not tests:
@@ -71,5 +133,95 @@ async def list_locations() -> str:
     try:
         data = await api_request("synthetics/locations", "v1")
         return format_output(data, ResponseFormat.JSON)
+    except Exception as exc:
+        return handle_error(exc)
+
+
+# ---------------------------------------------------------------------------
+# Helper to build API test request body
+# ---------------------------------------------------------------------------
+
+def _api_test_body(
+    name: str,
+    subtype: str,
+    config: Dict[str, Any],
+    locations: List[str],
+    options: Optional[Dict[str, Any]] = None,
+    message: Optional[str] = None,
+    tags: Optional[List[str]] = None,
+    status: Optional[str] = None,
+) -> Dict[str, Any]:
+    """Build the JSON body for create/update API test requests."""
+    body: Dict[str, Any] = {
+        "name": name,
+        "type": "api",
+        "subtype": subtype,
+        "config": config,
+        "locations": locations,
+    }
+    if options is not None:
+        body["options"] = options
+    if message is not None:
+        body["message"] = message
+    if tags is not None:
+        body["tags"] = tags
+    if status is not None:
+        body["status"] = status
+    return body
+
+
+# ---------------------------------------------------------------------------
+# Create / Update / Delete API test tools
+# ---------------------------------------------------------------------------
+
+async def create_api_test(params: SyntheticsCreateApiTestInput) -> str:
+    """Create a new Datadog Synthetics API test."""
+    try:
+        body = _api_test_body(
+            name=params.name,
+            subtype=params.subtype,
+            config=params.config,
+            locations=params.locations,
+            options=params.options,
+            message=params.message,
+            tags=params.tags,
+            status=params.status,
+        )
+        data = await api_request("synthetics/tests/api", "v1", method="POST", json_body=body)
+        public_id = data.get("public_id", "unknown") if isinstance(data, dict) else "unknown"
+        return f"Synthetic API test '{params.name}' created successfully (id={public_id})."
+    except Exception as exc:
+        return handle_error(exc)
+
+
+async def update_api_test(params: SyntheticsUpdateApiTestInput) -> str:
+    """Update an existing Datadog Synthetics API test."""
+    try:
+        body = _api_test_body(
+            name=params.name,
+            subtype=params.subtype,
+            config=params.config,
+            locations=params.locations,
+            options=params.options,
+            message=params.message,
+            tags=params.tags,
+            status=params.status,
+        )
+        await api_request(
+            f"synthetics/tests/api/{params.test_id}", "v1", method="PUT", json_body=body,
+        )
+        return f"Synthetic API test {params.test_id} updated successfully."
+    except Exception as exc:
+        return handle_error(exc)
+
+
+async def delete_test(params: SyntheticsDeleteTestInput) -> str:
+    """Delete one or more Datadog Synthetics tests."""
+    try:
+        body = {"public_ids": params.public_ids}
+        await api_request("synthetics/tests/delete", "v1", method="POST", json_body=body)
+        count = len(params.public_ids)
+        label = "test" if count == 1 else "tests"
+        return f"{count} synthetic {label} deleted successfully."
     except Exception as exc:
         return handle_error(exc)

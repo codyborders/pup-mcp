@@ -1,5 +1,23 @@
 # Progress
 
+## 2026-02-17 -- Added Synthetics API test create, update, and delete tools
+
+- Added 3 new Synthetics tools for API test lifecycle management:
+  - `create_api_test` (POST /api/v1/synthetics/tests/api): Create API tests with configurable
+    assertions, request settings, locations, options, and tags. Supports all subtypes (http, ssl,
+    dns, websocket, tcp, udp, icmp, grpc).
+  - `update_api_test` (PUT /api/v1/synthetics/tests/api/{id}): Full replacement update of
+    existing API tests.
+  - `delete_test` (POST /api/v1/synthetics/tests/delete): Batch delete one or more synthetic
+    tests by public ID.
+- Input models: `SyntheticsCreateApiTestInput`, `SyntheticsUpdateApiTestInput`,
+  `SyntheticsDeleteTestInput` with strict Pydantic validation.
+- Shared `_api_test_body` helper for create/update request body construction.
+- Registered 3 new tools in server.py (total: 61 tools).
+- Added 15 new tests covering JSON body verification, optional field omission, error handling,
+  multi-assertion configs, and batch delete scenarios.
+- Test suite: 202 tests, all passing.
+
 ## 2026-02-17 -- Codebase simplification and consistency pass
 
 - **server.py**: Replaced 90+ repetitive `mcp.tool()` calls with a data-driven
