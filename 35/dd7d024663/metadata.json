@@ -1,0 +1,36 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "35dd7d024663",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "PROGRESS.md",
+    "src/pup_mcp/server.py",
+    "src/pup_mcp/services/datadog_client.py",
+    "src/pup_mcp/tools/events.py",
+    "src/pup_mcp/tools/logs.py",
+    "src/pup_mcp/tools/metrics.py",
+    "src/pup_mcp/tools/rum.py",
+    "src/pup_mcp/tools/slos.py",
+    "src/pup_mcp/tools/synthetics.py",
+    "src/pup_mcp/tools/users.py",
+    "src/pup_mcp/utils/time_parser.py"
+  ],
+  "sessions": [
+    {
+      "metadata": "/35/dd7d024663/0/metadata.json",
+      "transcript": "/35/dd7d024663/0/full.jsonl",
+      "context": "/35/dd7d024663/0/context.md",
+      "content_hash": "/35/dd7d024663/0/content_hash.txt",
+      "prompt": "/35/dd7d024663/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 14765,
+    "cache_creation_tokens": 408719,
+    "cache_read_tokens": 13227608,
+    "output_tokens": 23347,
+    "api_call_count": 126
+  }
+}
